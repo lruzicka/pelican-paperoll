@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="{% block html_lang %}{{ DEFAULT_LANG }}{% endblock html_lang %}">
+<head>
+        {% block head %}
+        <title>{% block title %}{{ SITENAME }}{% endblock title %}</title>
+        <meta charset="utf-8" />
+        <meta name="generator" content="Pelican" />
+        {% if FEED_ALL_ATOM %}
+        <link href="{{ FEED_DOMAIN }}/{% if FEED_ALL_ATOM_URL %}{{ FEED_ALL_ATOM_URL }}{% else %}{{ FEED_ALL_ATOM }}{% endif %}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Full Atom Feed" />
+        {% endif %}
+        {% if FEED_ALL_RSS %}
+        <link href="{{ FEED_DOMAIN }}/{% if FEED_ALL_RSS_URL %}{{ FEED_ALL_RSS_URL }}{% else %}{{ FEED_ALL_RSS }}{% endif %}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} Full RSS Feed" />
+        {% endif %}
+        {% if FEED_ATOM %}
+        <link href="{{ FEED_DOMAIN }}/{%if FEED_ATOM_URL %}{{ FEED_ATOM_URL }}{% else %}{{ FEED_ATOM }}{% endif %}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Atom Feed" />
+        {% endif %}
+        {% if FEED_RSS %}
+        <link href="{{ FEED_DOMAIN }}/{% if FEED_RSS_URL %}{{ FEED_RSS_URL }}{% else %}{{ FEED_RSS }}{% endif %}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} RSS Feed" />
+        {% endif %}
+        {% if CATEGORY_FEED_ATOM and category %}
+        <link href="{{ FEED_DOMAIN }}/{% if CATEGORY_FEED_ATOM_URL %}{{ CATEGORY_FEED_ATOM_URL.format(slug=category.slug) }}{% else %}{{ CATEGORY_FEED_ATOM.format(slug=category.slug) }}{% endif %}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Categories Atom Feed" />
+        {% endif %}
+        {% if CATEGORY_FEED_RSS and category %}
+        <link href="{{ FEED_DOMAIN }}/{% if CATEGORY_FEED_RSS_URL %}{{ CATEGORY_FEED_RSS_URL.format(slug=category.slug) }}{% else %}{{ CATEGORY_FEED_RSS.format(slug=category.slug) }}{% endif %}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} Categories RSS Feed" />
+        {% endif %}
+        {% if TAG_FEED_ATOM and tag %}
+        <link href="{{ FEED_DOMAIN }}/{% if TAG_FEED_ATOM_URL %}{{ TAG_FEED_ATOM_URL.format(slug=tag.slug) }}{% else %}{{ TAG_FEED_ATOM.format(slug=tag.slug) }}{% endif %}" type="application/atom+xml" rel="alternate" title="{{ SITENAME }} Tags Atom Feed" />
+        {% endif %}
+        {% if TAG_FEED_RSS and tag %}
+        <link href="{{ FEED_DOMAIN }}/{% if TAG_FEED_RSS_URL %}{{ TAG_FEED_RSS_URL.format(slug=tag.slug) }}{% else %}{{ TAG_FEED_RSS.format(slug=tag.slug) }}{% endif %}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} Tags RSS Feed" />
+        {% endif %}
+        <link rel="stylesheet" href="{{ SITEURL }}/theme/css/style.css" />
+	<link href="https://fonts.googleapis.com/css2?family=Literata:wght@300;400;700&display=swap" rel="stylesheet">
+        {% endblock head %}
+</head>
+
+<body id="index" class="home">
+        <div id="page">
+        <header id="banner" class="body">
+                <h1 class="title"><a href="{{ SITEURL }}/">{{ SITENAME }}</a></h1>
+                {% if SITESUBTITLE %} <h3 class="subtitle">{{ SITESUBTITLE }}</h3>{% endif %}
+        </header><!-- /#banner -->
+        <nav id="menu">
+	<ul class="menu">
+        {% for title, link in MENUITEMS %}
+            <li><a href="{{ link }}">{{ title }}</a></li>
+        {% endfor %}
+	</ul>
+        {% if DISPLAY_PAGES_ON_MENU %}
+        <h2 class="menu">Stránky</h2>
+	<ul class="menu">
+          {% for p in pages %}
+            <li{% if p == page %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ p.url }}">{{ p.title }}</a></li>
+          {% endfor %}
+	</ul>
+        {% endif %}
+        {% if DISPLAY_CATEGORIES_ON_MENU %}
+        <h2 class="menu">Oddělení</h2>
+	<ul class="menu">
+          {% for cat, null in categories %}
+            <li{% if cat == category %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a></li>
+          {% endfor %}
+	</ul>
+        {% endif %}
+	<h2 class="menu">Katalog</h2>
+	  <ul class="menu">
+		  <li><a href="{{SITEURL}}/authors.html">Autoři</a></li>
+		  <li><a href="{{SITEURL}}/categories.html">Oddělení</a></li>
+		  <li><a href="{{SITEURL}}/tags.html">Śtítky</a></li>
+	  </ul>
+	{% if LINKS  %}
+	<h2 class="menu">Odkazy</h2>
+	  <ul class="menu">
+	  {% for link in LINKS  %}
+	  <li><a href="{{link[1]}}">{{link[0]}}</li>
+	  {% endfor %}
+	  </ul>
+	 {% endif  %}
+        </nav><!-- /#menu -->
+        <div id="textfield">
+        {% block content %}
+        {% endblock %}
+        </div>
+        <footer id="contentinfo" class="body">
+                Stránky jsou vytvořené generátorem <a href="https://getpelican.com/">Pelican</a>
+		napsaným v <a href="https://www.python.org/">Pythonu</a>. <br/>
+		Použité téma <a href="https://github.org/lruzicka/pelican-paperoll.git">PapeRoll</a>. &copy; Lukáš Růžička, 2020. 
+        </footer><!-- /#contentinfo -->
+        </div>
+</body>
+</html>
