@@ -1,12 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}{{ SITENAME }} - Tags{% endblock %}
+{% block title %}{{ SITENAME }} - Štítky{% endblock %}
 
 {% block content %}
-    <h1>Štítky použité na {{ SITENAME }}</h1>
-    <ul>
+<section id="content">
+  <h2 class="category-title">Štítky použité na {{ SITENAME }}</h2>
+
+  {% set max_count = tags|map(attribute=1)|map('count')|max %}
+
+  <div class="tag-cloud">
     {% for tag, articles in tags|sort %}
-        <li><a href="{{ SITEURL }}/{{ tag.url }}">{{ tag }}</a> ({{ articles|count }})</li>
+      {% set count = articles|count %}
+      {% set weight = (count / max_count * 4)|round|int %}
+      <a href="{{ SITEURL }}/{{ tag.url }}" class="tag-pill tag-weight-{{ weight }}">{{ tag }} <span class="tag-count">({{ count }})</span></a>
     {% endfor %}
-    </ul>
+  </div>
+</section>
 {% endblock %}

@@ -1,12 +1,19 @@
 {% extends "base.html" %}
 
-{% block title %}{{ SITENAME }} - Authors{% endblock %}
+{% block title %}{{ SITENAME }} - Autoři{% endblock %}
 
 {% block content %}
-    <h1>Autoři příspěvků na {{ SITENAME }}</h1>
-    <ul>
+<section id="content">
+  <h2 class="category-title">Autoři příspěvků na {{ SITENAME }}</h2>
+
+  {% set max_count = authors|map(attribute=1)|map('count')|max %}
+
+  <div class="tag-cloud">
     {% for author, articles in authors|sort %}
-        <li><a href="{{ SITEURL }}/{{ author.url }}">{{ author }}</a> ({{ articles|count }})</li>
+      {% set count = articles|count %}
+      {% set weight = (count / max_count * 4)|round|int %}
+      <a href="{{ SITEURL }}/{{ author.url }}" class="tag-pill tag-weight-{{ weight }}">{{ author }} <span class="tag-count">({{ count }})</span></a>
     {% endfor %}
-    </ul>
+  </div>
+</section>
 {% endblock %}

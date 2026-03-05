@@ -1,113 +1,553 @@
+/* ============================================
+   Svitky z pichlavé kytky – vylepšené CSS
+   ============================================ */
+
+/* --- Základní proměnné --- */
+:root {
+    --color-bg: #faf8f4;
+    --color-text: #1a1a1a;
+    --color-muted: #888;
+    --color-accent: #c0392b;
+    --color-border: #e0d8cc;
+    --color-link-hover: #c0392b;
+    --font-main: 'Literata', Georgia, serif;
+    --max-content-width: 720px;
+    --max-page-width: 1100px;
+}
+
+/* --- Reset a základ --- */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html {
+    font-size: 18px;
+    scroll-behavior: smooth;
+}
+
 body {
-	border: 2px solid white;
-     }
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-main);
+    font-weight: 300;
+    line-height: 1.75;
+    margin: 0;
+    padding: 0;
+}
 
+/* --- Header --- */
 header {
-	font-family: 'Literata', serif;
-	margin-top: 0px;
-}     
-
-footer {
-	width: 50%;
-	border-top: 3px dotted #f2f2f2;
-	float: left;
-        text-align: center;
-	font-family: 'Literata', serif;
-	font-weight: 300;
-	font-size: 90%;
-	margin-left: 25%;
-	margin-right: 25%;
-	margin-top: 50px;
+    font-family: var(--font-main);
+    background-color: var(--color-bg);
+    border-bottom: 2px solid var(--color-border);
+    padding: 40px 20px 0;
+    text-align: center;
 }
 
 h1.title {
-	font-weight: 700;
-	font-size: 600%;
-	text-align: center;
-	margin-bottom: 0px;
+    font-weight: 800;
+    font-size: clamp(2.5rem, 7vw, 5rem);
+    text-align: center;
+    margin: 0 0 8px 0;
+    letter-spacing: -0.02em;
+    line-height: 1.1;
 }
 
 h3.subtitle {
-	font-weight: 400;
-	text-align: center;
-	font-size: 150%;
-	margin-top: 0px;
+    font-weight: 400;
+    text-align: center;
+    font-size: 1.1rem;
+    margin: 0 0 30px 0;
+    color: var(--color-muted);
+    font-style: italic;
+    letter-spacing: 0.02em;
 }
 
-a:link {
-	color: black;
-	text-decoration: none;
+/* --- Horizontální navigace s dropdowny --- */
+nav#menu {
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    margin: 0;
+    padding: 0;
 }
 
-a:visited {
-	color: black;
-	text-decoration: none;
+ul.nav-list {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    list-style: none;
+    margin: 0;
+    padding: 0;
 }
 
-a:hover {
-	color: #33ccff;
-	text-decoration: underline;
+/* Položka v hlavní liště */
+li.nav-item {
+    position: relative;
 }
 
-a:active {
-	color: #33ccff;
-	text-decoration: underline;
+li.nav-item > a {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    padding: 13px 20px;
+    font-size: 0.82rem;
+    font-weight: 400;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--color-text);
+    text-decoration: none;
+    border-right: 1px solid var(--color-border);
+    transition: background 0.2s, color 0.2s;
+    white-space: nowrap;
+    border-bottom: none;
 }
 
+li.nav-item:first-child > a {
+    border-left: 1px solid var(--color-border);
+}
+
+li.nav-item > a:hover {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    text-decoration: none;
+    border-bottom: none;
+}
+
+.nav-arrow {
+    font-size: 0.7rem;
+    opacity: 0.6;
+    transition: transform 0.2s;
+}
+
+li.nav-dropdown:hover .nav-arrow {
+    transform: rotate(180deg);
+}
+
+/* Dropdown podmenu */
+ul.nav-submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 180px;
+    list-style: none;
+    margin: 0;
+    padding: 6px 0;
+    background-color: var(--color-bg);
+    border: 1px solid var(--color-border);
+    border-top: 2px solid var(--color-text);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    z-index: 100;
+}
+
+li.nav-dropdown:hover ul.nav-submenu {
+    display: block;
+}
+
+ul.nav-submenu li a {
+    display: block;
+    padding: 8px 16px;
+    font-size: 0.85rem;
+    font-weight: 300;
+    color: var(--color-text);
+    text-decoration: none;
+    letter-spacing: 0.02em;
+    transition: background 0.15s, color 0.15s;
+    border-bottom: none;
+}
+
+ul.nav-submenu li a:hover {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    text-decoration: none;
+    border-bottom: none;
+}
+
+ul.nav-submenu li.active a {
+    font-weight: 700;
+}
+
+/* --- Hlavní stránka --- */
 #page {
-	width: 90%;
-	margin: auto;
-	border-bottom: 3px dotted #f2f2f2;
-}  
-
-#menu {
-	width: 20%;
-	border-right: 3px dotted #f2f2f2;
-	float: left;
-	font-family: 'Literata', serif;
-	font-weight: 300;
-	text-align: right;
-	padding-right: 10px;
+    max-width: var(--max-page-width);
+    width: 92%;
+    margin: 0 auto;
+    padding: 50px 0 40px;
 }
 
+/* --- Textové pole (obsah článků) --- */
 #textfield {
-	width: 60%;
-	float: right;
-	font-family: 'Literata', serif;
-	font-weight: 300;
-	padding-right: 10%;
-	margin-left: 5%;
+    max-width: var(--max-content-width);
+    width: 100%;
+    float: none;
+    margin: 0 auto;
+    font-family: var(--font-main);
+    font-weight: 300;
+    font-size: 1rem;
+    line-height: 1.8;
+    padding: 0;
 }
 
-#post-list {
-	list-style-type: roman;
+/* --- Song page --- */
+#songpage {
+    max-width: var(--max-page-width);
+    width: 92%;
+    margin: 0 auto;
+    padding-top: 40px;
 }
 
+#songtext {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    width: 100%;
+    font-family: var(--font-main);
+    font-weight: 300;
+    margin-bottom: 40px;
+    font-size: 1rem;
+    line-height: 1.9;
+}
+
+.stanza {
+    flex: 1;
+    min-width: 180px;
+    margin: 0 8px;
+    display: flex;
+    flex-direction: column;
+}
+
+/* --- Nadpisy --- */
 h2.category-title {
-	font-weight: 700;
-	font-size: 200%;
+    font-weight: 700;
+    font-size: 1.9rem;
+    margin-bottom: 0.3em;
+    letter-spacing: -0.01em;
+    padding-bottom: 8px;
 }
 
-div.entry-title {
-	font-weight: 300;
-	font-size: 110%;
+/* Silná linka pod nadpisem článku/kategorie */
+section#content > header,
+section#content > h2.category-title {
+    border-bottom: 3px solid var(--color-border);
+    padding-bottom: 12px;
+    margin-bottom: 20px;
 }
 
-div.entry-content {
-	font-weight: 300;
-	font-size: 80%;
-	margin-left: 15pt;
+h4.deliverables {
+    font-size: 0.9rem;
+    font-weight: 600;
+    margin: 0 0 4px 0;
+}
+
+/* --- Položky článků --- */
+/* --- Seznam článků (kompaktní řádkový formát) --- */
+#post-list {
+    list-style-type: lower-roman;
+    padding-left: 2em;
+    margin: 0;
+}
+
+li.post-item {
+    font-size: 0.95rem;
+    line-height: 1.5;
+    padding: 5px 0;
+    border-bottom: 1px solid var(--color-border);
+    color: var(--color-text);
+}
+
+li.post-item:last-child {
+    border-bottom: none;
+}
+
+li.post-item a {
+    font-weight: 600;
+    color: var(--color-text);
+    text-decoration: none;
+    border-bottom: none;
+}
+
+li.post-item a:hover {
+    color: var(--color-link-hover);
+    border-bottom: none;
+}
+
+span.entry-sep {
+    color: var(--color-muted);
+    margin: 0 6px;
+    font-weight: 300;
+}
+
+span.entry-summary {
+    font-weight: 300;
+    color: #555;
+    font-style: italic;
+}
+
+/* Obal pro text + deliverables – clearfix */
+div.article-body {
+    overflow: hidden;
+}
+
+div.article-content {
+    /* žádný float – zabere místo vedle floatovaného deliverables boxu */
+}
+
+/* --- Breadcrumb --- */
+nav.breadcrumb {
+    font-size: 0.82rem;
+    font-weight: 300;
+    color: var(--color-muted);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+nav.breadcrumb a {
+    color: var(--color-muted);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+nav.breadcrumb a:hover {
+    color: var(--color-link-hover);
+    border-bottom-color: var(--color-link-hover);
+}
+
+.breadcrumb-sep {
+    color: var(--color-border);
+    font-size: 1rem;
+}
+
+.breadcrumb-current {
+    color: var(--color-text);
+    font-weight: 400;
 }
 
 div.post-info {
-	font-weigth: 300;
-	font-size: 80%;
-	margin-top: 20pt;
-	color: #a2a2a2;
+    font-weight: 300;
+    font-size: 0.82rem;
+    margin-bottom: 20px;
+    color: var(--color-muted);
+    font-style: italic;
 }
+
+/* --- Deliverables box --- */
+div.deliverables {
+    background-color: #fef9f0;
+    border: 1.5px solid #e8c97a;
+    border-left: 4px solid #d4a017;
+    margin-top: 12px;
+    padding: 12px 16px;
+    width: 220px;
+    float: right;
+    margin-left: 24px;
+    font-size: 0.88rem;
+}
+
+ul.deliverables {
+    list-style: square outside;
+    font-size: 0.85rem;
+    margin: 4px 0 0 0;
+    padding-left: 18px;
+}
+
+
+
 
 ul.menu {
-	size: 80%;
-        list-style-type: none;	
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
 }
 
+/* --- Odkazy --- */
+a:link,
+a:visited {
+    color: var(--color-text);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+a:hover,
+a:active {
+    color: var(--color-link-hover);
+    border-bottom-color: var(--color-link-hover);
+    text-decoration: none;
+}
+
+/* --- Footer --- */
+footer {
+    max-width: var(--max-content-width);
+    width: 100%;
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+    font-family: var(--font-main);
+    font-weight: 300;
+    font-size: 0.82rem;
+    color: var(--color-muted);
+    margin: 50px auto 40px;
+    padding-top: 20px;
+    line-height: 1.6;
+}
+
+/* --- Responzivita --- */
+
+/* Hamburger tlačítko – skryté na desktopu */
+.nav-hamburger {
+    display: none;
+}
+
+@media (max-width: 700px) {
+    html {
+        font-size: 16px;
+    }
+
+    #page,
+    #songpage {
+        width: 96%;
+        padding: 30px 0 20px;
+    }
+
+    div.deliverables {
+        float: none;
+        width: 100%;
+        margin-left: 0;
+    }
+
+    h1.title {
+        font-size: clamp(2rem, 10vw, 3rem);
+    }
+
+    /* Hamburger tlačítko */
+    .nav-hamburger {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        gap: 5px;
+        width: 44px;
+        height: 44px;
+        padding: 8px;
+        background: none;
+        border: none;
+        cursor: pointer;
+        margin: 0 auto;
+    }
+
+    .nav-hamburger span {
+        display: block;
+        width: 100%;
+        height: 2px;
+        background-color: var(--color-text);
+        border-radius: 2px;
+        transition: transform 0.25s, opacity 0.25s;
+    }
+
+    /* Animace na X při otevření */
+    .nav-hamburger[aria-expanded="true"] span:nth-child(1) {
+        transform: translateY(7px) rotate(45deg);
+    }
+    .nav-hamburger[aria-expanded="true"] span:nth-child(2) {
+        opacity: 0;
+    }
+    .nav-hamburger[aria-expanded="true"] span:nth-child(3) {
+        transform: translateY(-7px) rotate(-45deg);
+    }
+
+    /* Navigační seznam – skrytý, rozbalí se po kliknutí */
+    ul.nav-list {
+        display: none;
+        flex-direction: column;
+        width: 100%;
+        border-top: 1px solid var(--color-border);
+    }
+
+    ul.nav-list.nav-open {
+        display: flex;
+    }
+
+    li.nav-item > a {
+        border-right: none;
+        border-left: none;
+        border-bottom: 1px solid var(--color-border);
+        justify-content: space-between;
+        padding: 13px 20px;
+    }
+
+    li.nav-item:first-child > a {
+        border-left: none;
+    }
+
+    /* Submenu na mobilu – statické, ne absolutní */
+    ul.nav-submenu {
+        position: static;
+        box-shadow: none;
+        border: none;
+        border-top: none;
+        background-color: #f0ece4;
+        padding: 4px 0;
+        display: none;
+    }
+
+    /* Otevření submenya tapem */
+    li.nav-dropdown.nav-touch-open > ul.nav-submenu {
+        display: block;
+    }
+
+    /* Na mobilu nereaguj na hover */
+    li.nav-dropdown:hover > ul.nav-submenu {
+        display: none;
+    }
+
+    li.nav-dropdown.nav-touch-open > ul.nav-submenu {
+        display: block;
+    }
+
+    ul.nav-submenu li a {
+        padding: 9px 32px;
+        border-bottom: 1px solid var(--color-border);
+    }
+}
+
+/* --- Tag cloud --- */
+.tag-cloud {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 16px 0;
+    line-height: 1;
+}
+
+a.tag-pill {
+    display: inline-block;
+    padding: 5px 12px;
+    border: 1px solid var(--color-border);
+    border-radius: 2px;
+    color: var(--color-text);
+    text-decoration: none;
+    font-weight: 300;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    white-space: nowrap;
+}
+
+a.tag-pill:hover {
+    background-color: var(--color-text);
+    color: var(--color-bg);
+    border-color: var(--color-text);
+    border-bottom: none;
+}
+
+.tag-count {
+    font-size: 0.75em;
+    opacity: 0.6;
+}
+
+/* Váhy – velikost podle počtu článků */
+a.tag-pill.tag-weight-0 { font-size: 0.78rem; opacity: 0.7; }
+a.tag-pill.tag-weight-1 { font-size: 0.88rem; }
+a.tag-pill.tag-weight-2 { font-size: 1rem; }
+a.tag-pill.tag-weight-3 { font-size: 1.15rem; font-weight: 400; }
+a.tag-pill.tag-weight-4 { font-size: 1.3rem;  font-weight: 700; }

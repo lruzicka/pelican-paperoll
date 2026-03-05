@@ -30,62 +30,126 @@
         <link href="{{ FEED_DOMAIN }}/{% if TAG_FEED_RSS_URL %}{{ TAG_FEED_RSS_URL.format(slug=tag.slug) }}{% else %}{{ TAG_FEED_RSS.format(slug=tag.slug) }}{% endif %}" type="application/rss+xml" rel="alternate" title="{{ SITENAME }} Tags RSS Feed" />
         {% endif %}
         <link rel="stylesheet" href="{{ SITEURL }}/theme/css/style.css" />
-	<link href="https://fonts.googleapis.com/css2?family=Literata:wght@300;400;700&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Literata:wght@300;400;700;800&display=swap" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         {% endblock head %}
 </head>
 
 <body id="index" class="home">
         <div id="page">
+
         <header id="banner" class="body">
                 <h1 class="title"><a href="{{ SITEURL }}/">{{ SITENAME }}</a></h1>
-                {% if SITESUBTITLE %} <h3 class="subtitle">{{ SITESUBTITLE }}</h3>{% endif %}
-        </header><!-- /#banner -->
+                {% if SITESUBTITLE %}<h3 class="subtitle">{{ SITESUBTITLE }}</h3>{% endif %}
+        </header>
+
         <nav id="menu">
-	<ul class="menu">
-        {% for title, link in MENUITEMS %}
-            <li><a href="{{ link }}">{{ title }}</a></li>
-        {% endfor %}
-	</ul>
-        {% if DISPLAY_PAGES_ON_MENU %}
-        <h2 class="menu">Stránky</h2>
-	<ul class="menu">
-          {% for p in pages %}
-            <li{% if p == page %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ p.url }}">{{ p.title }}</a></li>
-          {% endfor %}
-	</ul>
-        {% endif %}
-        {% if DISPLAY_CATEGORIES_ON_MENU %}
-        <h2 class="menu">Oddělení</h2>
-	<ul class="menu">
-          {% for cat, null in categories %}
-            <li{% if cat == category %} class="active"{% endif %}><a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a></li>
-          {% endfor %}
-	</ul>
-        {% endif %}
-	<h2 class="menu">Katalog</h2>
-	  <ul class="menu">
-		  <li><a href="{{SITEURL}}/authors.html">Autoři</a></li>
-		  <li><a href="{{SITEURL}}/categories.html">Oddělení</a></li>
-		  <li><a href="{{SITEURL}}/tags.html">Śtítky</a></li>
-	  </ul>
-	{% if LINKS  %}
-	<h2 class="menu">Odkazy</h2>
-	  <ul class="menu">
-	  {% for link in LINKS  %}
-	  <li><a href="{{link[1]}}">{{link[0]}}</li>
-	  {% endfor %}
-	  </ul>
-	 {% endif  %}
-        </nav><!-- /#menu -->
+          <button class="nav-hamburger" id="nav-toggle" aria-label="Otevřít menu" aria-expanded="false">
+            <span></span><span></span><span></span>
+          </button>
+          <ul class="nav-list" id="nav-list">
+
+            {% for title, link in MENUITEMS %}
+              <li class="nav-item">
+                <a href="{{ link }}">{{ title }}</a>
+              </li>
+            {% endfor %}
+
+            {% if DISPLAY_PAGES_ON_MENU and pages %}
+              <li class="nav-item nav-dropdown">
+                <a href="#">Stránky <span class="nav-arrow">▾</span></a>
+                <ul class="nav-submenu">
+                  {% for p in pages %}
+                    <li{% if p == page %} class="active"{% endif %}>
+                      <a href="{{ SITEURL }}/{{ p.url }}">{{ p.title }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endif %}
+
+            {% if DISPLAY_CATEGORIES_ON_MENU and categories %}
+              <li class="nav-item nav-dropdown">
+                <a href="#">Oddělení <span class="nav-arrow">▾</span></a>
+                <ul class="nav-submenu">
+                  {% for cat, null in categories %}
+                    <li{% if cat == category %} class="active"{% endif %}>
+                      <a href="{{ SITEURL }}/{{ cat.url }}">{{ cat }}</a>
+                    </li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endif %}
+
+            <li class="nav-item nav-dropdown">
+              <a href="#">Katalog <span class="nav-arrow">▾</span></a>
+              <ul class="nav-submenu">
+                <li><a href="{{ SITEURL }}/authors.html">Autoři</a></li>
+                <li><a href="{{ SITEURL }}/categories.html">Oddělení</a></li>
+                <li><a href="{{ SITEURL }}/tags.html">Štítky</a></li>
+              </ul>
+            </li>
+
+            {% if LINKS %}
+              <li class="nav-item nav-dropdown">
+                <a href="#">Odkazy <span class="nav-arrow">▾</span></a>
+                <ul class="nav-submenu">
+                  {% for link in LINKS %}
+                    <li><a href="{{ link[1] }}">{{ link[0] }}</a></li>
+                  {% endfor %}
+                </ul>
+              </li>
+            {% endif %}
+
+          </ul>
+        </nav>
+
         <div id="textfield">
         {% block content %}
         {% endblock %}
         </div>
+
         <footer id="contentinfo" class="body">
                 Stránky jsou vytvořené generátorem <a href="https://getpelican.com/">Pelican</a>
-		napsaným v <a href="https://www.python.org/">Pythonu</a>. <br/>
-		Použité téma <a href="https://github.com/lruzicka/pelican-paperoll.git">PapeRoll</a>. &copy; Lukáš Růžička, 2020. 
-        </footer><!-- /#contentinfo -->
-        </div>
+                napsaným v <a href="https://www.python.org/">Pythonu</a>.<br/>
+                Použité téma <a href="https://github.com/lruzicka/pelican-paperoll.git">PapeRoll</a>. &copy; Lukáš Růžička, 2026.
+        </footer>
+
+        </div>        <script>
+          // Hamburger toggle
+          const toggle = document.getElementById('nav-toggle');
+          const navList = document.getElementById('nav-list');
+          toggle.addEventListener('click', function () {
+            const open = navList.classList.toggle('nav-open');
+            toggle.setAttribute('aria-expanded', open);
+          });
+
+          // Dotykové dropdowny na mobilu – tap otevře/zavře submenu
+          document.querySelectorAll('.nav-dropdown > a').forEach(function (link) {
+            link.addEventListener('click', function (e) {
+              if (window.innerWidth <= 700) {
+                e.preventDefault();
+                const parent = link.parentElement;
+                const wasOpen = parent.classList.contains('nav-touch-open');
+                // Zavři ostatní
+                document.querySelectorAll('.nav-dropdown').forEach(function (d) {
+                  d.classList.remove('nav-touch-open');
+                });
+                if (!wasOpen) parent.classList.add('nav-touch-open');
+              }
+            });
+          });
+
+          // Zavři menu při kliknutí mimo
+          document.addEventListener('click', function (e) {
+            if (!e.target.closest('#menu')) {
+              navList.classList.remove('nav-open');
+              toggle.setAttribute('aria-expanded', false);
+              document.querySelectorAll('.nav-dropdown').forEach(function (d) {
+                d.classList.remove('nav-touch-open');
+              });
+            }
+          });
+        </script>
 </body>
 </html>
